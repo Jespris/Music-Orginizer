@@ -2,18 +2,26 @@ package Album;
 
 import java.util.ArrayList;
 
-public class SubAlbum extends RootAlbum{
+public class SubAlbum extends Album{
 
-    private final SubAlbum parentAlbum;
+    private final Album parentAlbum;
 
-    public SubAlbum(final String albumName, final SubAlbum parent) {
+    public SubAlbum(final String albumName, final Album parent) {
         super(albumName);
         this.parentAlbum = parent;
     }
 
+    public Album getParentAlbum(){
+        return this.parentAlbum;
+    }
+
     @Override
-    public boolean equals(final Object other){
-        // overriding the equals method for albums, for enabling sorting sub-albums and such
+    public boolean invariant() {
+        return (this.albumName != null && this.parentAlbum != null);
+    }
+
+    @Override
+    boolean isRootAlbum() {
         return false;
     }
 }
