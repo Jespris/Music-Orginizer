@@ -1,19 +1,19 @@
 package Album;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Album implements AlbumInterface{
 
     String albumName;
-    List<Album> subAlbums;
+    List<SubAlbum> subAlbums;
     List<Song> songs;
 
     public Album(final String albumName){
         this.albumName = albumName;
-        this.subAlbums = new ArrayList<Album>();
+        this.subAlbums = new ArrayList<SubAlbum>();
         this.songs = new ArrayList<Song>();
-        assert invariant();
     }
 
     // interface for making sure that the album class contains all the necessary methods
@@ -25,13 +25,16 @@ public abstract class Album implements AlbumInterface{
     public boolean removeSong(final Song song){
         if (containsSong(song)){
             this.songs.remove(song);
+            for (SubAlbum album: this.subAlbums){
+                album.removeSong(song);
+            }
             assert invariant();
             return true;
         }
         return false;
     }
 
-    public boolean addAlbum(final Album album){
+    public boolean addAlbum(SubAlbum album){
         if (!containsAlbum(album)){
             this.subAlbums.add(album);
             assert invariant();
@@ -40,7 +43,7 @@ public abstract class Album implements AlbumInterface{
         return false;
     }
 
-    public boolean removeAlbum(final Album album){
+    public boolean removeAlbum(final SubAlbum album){
         if (containsAlbum(album)){
             this.subAlbums.remove(album);
             assert invariant();
@@ -49,7 +52,7 @@ public abstract class Album implements AlbumInterface{
         return false;
     }
 
-    public boolean containsAlbum(final Album album){
+    public boolean containsAlbum(final SubAlbum album){
         return this.subAlbums.contains(album);
     }
 
@@ -66,18 +69,37 @@ public abstract class Album implements AlbumInterface{
         return this.songs.get(i);
     }
 
-    public Album getAlbum(final int i){
+    public SubAlbum getSubAlbum(final int i){
         return this.subAlbums.get(i);
+    }
+
+    public List<SubAlbum> getSubAlbums(){
+        return Collections.unmodifiableList(this.subAlbums);
+    }
+
+    public List<Song> getSongs(){
+        return Collections.unmodifiableList(this.songs);
     }
 
     abstract boolean invariant();
 
-    abstract boolean isRootAlbum();
+    public abstract boolean isRootAlbum();
+
+    public abstract Album getParentAlbum();
 
     @Override
     public boolean equals(final Object other){
         // TODO: equals method for album
-        return true;
+        if (this.getClass() != other.getClass()){
+            return false;
+        }
+        return this.hashCode() == other.hashCode();
+    }
+
+    @Override
+    public int hashCode(){
+        int prime = 31;
+        return this.albumName.hashCode() * prime;
     }
 
     @Override

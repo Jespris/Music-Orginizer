@@ -8,6 +8,7 @@ public class RootAlbum extends Album {
 
     private RootAlbum(final String albumName){
         super(albumName);
+        assert invariant();
     }
 
     public static RootAlbum get(){
@@ -19,9 +20,13 @@ public class RootAlbum extends Album {
         return this.albumName != null;
     }
 
+    @Override
+    public boolean isRootAlbum() {
+        return true;
+    }
 
     @Override
-    boolean isRootAlbum() {
-        return true;
+    public Album getParentAlbum() {
+        return null;
     }
 }

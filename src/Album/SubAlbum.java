@@ -4,13 +4,20 @@ import java.util.ArrayList;
 
 public class SubAlbum extends Album{
 
-    private final Album parentAlbum;
+    private Album parentAlbum;
 
-    public SubAlbum(final String albumName, final Album parent) {
+    public SubAlbum(final String albumName, Album parent) {
         super(albumName);
-        this.parentAlbum = parent;
+        if (parent == null){
+            System.out.println("Sub-album '" + this.toString() + "' has no parent assigned, assigning root album as parent...");
+            this.parentAlbum = RootAlbum.get();
+        } else {
+            this.parentAlbum = parent;
+        }
+        assert invariant();
     }
 
+    @Override
     public Album getParentAlbum(){
         return this.parentAlbum;
     }
@@ -21,7 +28,7 @@ public class SubAlbum extends Album{
     }
 
     @Override
-    boolean isRootAlbum() {
+    public boolean isRootAlbum() {
         return false;
     }
 }
