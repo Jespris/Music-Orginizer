@@ -11,6 +11,9 @@ import java.io.File;
 import static org.junit.Assert.*;
 
 public class TestAlbumPackage {
+
+    // Tests all the classes under the package "Album"
+
     @Test
     public void testAlbum(){
         // check root album
@@ -54,6 +57,7 @@ public class TestAlbumPackage {
 
     @Test
     public void testSong(){
+        // tests the song class
         Song song = new Song(new SoundClip(new File("src/SongFiles/shrek.wav")), "TestSong", "TestArtist");
         RootAlbum root = RootAlbum.get();
         assertTrue(root.addSong(song));
