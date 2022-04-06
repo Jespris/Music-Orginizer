@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class SubAlbum extends Album{
 
     // instance variables
-    private Album parentAlbum; // is not final because maybe we want to add feature to change parent album?
+    private Album parentAlbum; // is not final because maybe we want to add some features that change parent album?
 
     public SubAlbum(final String albumName, Album parent) {
         // constructor for the SubAlbum class, calls super, and assigns rootAlbum as parent if no parent is assigned
@@ -19,16 +19,6 @@ public class SubAlbum extends Album{
             this.parentAlbum = parent;
         }
         assert invariant();
-    }
-
-    public boolean changeParentAlbum(Album album) throws ExecutionControl.NotImplementedException {
-        // TODO: method to change parent album?
-        if (album != null) {
-            this.parentAlbum = album;
-        }
-        assert invariant();
-        throw new ExecutionControl.NotImplementedException("change parent method implemented," +
-                " but maybe is not supposed to be used?");
     }
 
     @Override

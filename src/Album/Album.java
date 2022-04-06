@@ -17,31 +17,18 @@ public abstract class Album implements AlbumInterface{
     }
 
     //  methods that all albums should have below:
-
-    public boolean addSong(final Song song){
+    @Override
+    public boolean add(final Song song){
         // adds a song to this album
         this.songs.add(song);
         assert invariant();
         // returns true for testing purposes
         return true;
     }
-
-    public boolean removeSong(final Song song){
-        // removes a song from this album and all sub-albums, returns boolean for testing purposes
-        if (containsSong(song)){
-            this.songs.remove(song);
-            for (SubAlbum album: this.subAlbums){
-                album.removeSong(song);
-            }
-            assert invariant();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean addAlbum(SubAlbum album){
+    @Override
+    public boolean add(SubAlbum album){
         // adds an album to the list of sub-albums, returns boolean for testing purposes
-        if (!containsAlbum(album)){
+        if (!contains(album)){
             this.subAlbums.add(album);
             assert invariant();
             return true;
@@ -49,22 +36,37 @@ public abstract class Album implements AlbumInterface{
         return false;
     }
 
-    public boolean removeAlbum(final SubAlbum album){
+    @Override
+    public boolean remove(final Song song){
+        // removes a song from this album and all sub-albums, returns boolean for testing purposes
+        if (contains(song)){
+            this.songs.remove(song);
+            for (SubAlbum album: this.subAlbums){
+                album.remove(song);
+            }
+            assert invariant();
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public boolean remove(final SubAlbum album){
         // removes an album for list of sub-albums, returns boolean for testing purposes
-        if (containsAlbum(album)){
+        if (contains(album)){
             this.subAlbums.remove(album);
             assert invariant();
             return true;
         }
         return false;
     }
-
-    public boolean containsAlbum(final SubAlbum album){
+    @Override
+    public boolean contains(final SubAlbum album){
         // checks if this objects contains an album
         return this.subAlbums.contains(album);
     }
 
-    public boolean containsSong(final Song song){
+    @Override
+    public boolean contains(final Song song){
         // checks if this objects contains a song
         return this.songs.contains(song);
     }
@@ -115,9 +117,12 @@ public abstract class Album implements AlbumInterface{
     @Override
     public int hashCode(){
         // returns unique hashCode based on instance variables
-        // TODO: maybe update hashCode for Album
+        int hash = 7;
         int prime = 31;
-        return this.albumName.hashCode() * prime;
+        hash = prime * hash + this.albumName.hashCode();
+        hash = prime * hash + this.subAlbums.size();
+        hash = prime * hash + this.songs.size();
+        return hash;
     }
 
     @Override

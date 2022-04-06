@@ -10,7 +10,7 @@ public class Song {
     private final String songName;
 
     public Song(final SoundClip soundClip, final String songName, final String artist) {
-        // public constructor for song class
+        // public constructor for this class
         this.soundClip = soundClip;
         this.songName = songName;
         this.artist = artist;
