@@ -99,7 +99,14 @@ public abstract class Album implements AlbumInterface{
         return Collections.unmodifiableList(this.songs);
     }
 
-    abstract boolean invariant(); // to make sure each subclass has an invariant method
+    public boolean invariant(){  // invariant method for album
+        for (SubAlbum album: this.subAlbums){
+            if (!album.invariant()){
+                return false;
+            }
+        }
+        return this.albumName != null;
+    }
 
     public abstract boolean isRootAlbum();  // method for checking if subclass is a root album
 

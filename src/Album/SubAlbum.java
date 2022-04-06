@@ -30,7 +30,7 @@ public class SubAlbum extends Album{
     @Override
     public boolean invariant() {
         // checks that the instance variables are viable
-        return (this.albumName != null && this.parentAlbum != null);
+        return super.invariant() && this.parentAlbum != null;
     }
 
     @Override

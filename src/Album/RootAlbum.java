@@ -22,12 +22,6 @@ public class RootAlbum extends Album {
     }
 
     @Override
-    boolean invariant() {
-        // TODO: make better invariant method for RootAlbum
-        return this.albumName != null;
-    }
-
-    @Override
     public boolean isRootAlbum() {
         // Overrides the isRootAlbum method
         return true;
