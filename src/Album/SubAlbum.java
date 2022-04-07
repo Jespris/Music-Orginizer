@@ -18,7 +18,18 @@ public class SubAlbum extends Album{
         } else {
             this.parentAlbum = parent;
         }
-        assert invariant();
+        // add this as subAlbum to parentAlbum
+        this.parentAlbum.add(this);
+        // check invariant for both parent and this
+        assert this.parentAlbum.invariant() && invariant();
+    }
+
+    @Override
+    public boolean add(final Song song){
+        // adds the song to this album and recursively adds the song to all parentAlbums that doesn't contain it
+        // if parent album doesn't contain song, call this method on parent album,
+        // recursion stops at rootAlbum since that method is the base "add" method defined in "Album" class
+        return super.add(song) && (!this.parentAlbum.contains(song) ? this.parentAlbum.add(song) : true);
     }
 
     @Override

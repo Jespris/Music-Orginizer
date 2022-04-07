@@ -19,8 +19,10 @@ public abstract class Album implements AlbumInterface{
     //  methods that all albums should have below:
     @Override
     public boolean add(final Song song){
-        // adds a song to this album
-        this.songs.add(song);
+        // adds a song to this album if it doesn't contain it
+        if (!contains(song)){
+            this.songs.add(song);
+        }
         assert invariant();
         // returns true for testing purposes
         return true;

@@ -24,9 +24,9 @@ public class TestAlbumPackage {
         // add new subAlbums to root
         // checking addAlbum method
         SubAlbum rockAlbum = new SubAlbum("Rock", root);
-        assertTrue(root.add(rockAlbum));
+        assertTrue(root.contains(rockAlbum)); // rockAlbum gets added as subAlbum to root in rockAlbum's constructor
         SubAlbum classicalAlbum = new SubAlbum("Classical", null);
-        assertTrue(root.add(classicalAlbum));
+        assertTrue(root.contains(classicalAlbum));
 
         // check getAlbum methods and values
         assertEquals(2, root.getSubAlbums().size());
@@ -46,7 +46,8 @@ public class TestAlbumPackage {
 
         // adding sub-albums to sub-albums
         SubAlbum metalAlbum = new SubAlbum("Metal", rockAlbum);
-        assertTrue(rockAlbum.add(metalAlbum));
+        assertFalse(rockAlbum.add(metalAlbum));
+        assertTrue(rockAlbum.contains(metalAlbum));
         assertEquals(metalAlbum, root.getSubAlbum(0).getSubAlbum(0));
         assertEquals(root, metalAlbum.getParentAlbum().getParentAlbum());
         assertNull(root.getParentAlbum());
@@ -61,10 +62,15 @@ public class TestAlbumPackage {
         // tests the song class
         Song song = new Song(new SoundClip(new File("src/SongFiles/shrek.wav")), "TestSong", "TestArtist");
         RootAlbum root = RootAlbum.get();
-        assertTrue(root.add(song));
+        SubAlbum shrekAlbum = new SubAlbum("ShrekAlbum", null);
+        assertTrue(shrekAlbum.add(song));  // add song to shrekAlbum, which should get passed up to root
+        assertTrue(root.contains(song));
         assertEquals("TestSong", root.getSong(0).getSongName());
         assertEquals("TestArtist", root.getSong(0).getArtist());
-        assertTrue(root.remove(root.getSong(0)));
+        // test removing the song from root, song should get removed from all subAlbums
+        assertTrue(root.remove(song));
+        assertFalse(root.remove(song)); // cannot remove twice
+        assertFalse(shrekAlbum.contains(song));
 
         System.out.println(song.getSoundClip().getFile().getPath());
     }
